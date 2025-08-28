@@ -1,0 +1,306 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load audit_template_tags %}
+{% load static %}
+{% csrf_token %}
+<!-- <script src="{% static 'audit/js/functions.js' %}"></script> -->
+<script src="{% static 'audit/js/recommendations.js' %}"></script>
+<link rel="stylesheet" href="{% static 'audit/css/style.css' %}">
+<div class="tab-content p-4">
+  <div class="card mb-4">
+    <div class="card-header">
+        <h3>Recommendations</h3>
+    </div>
+    <div class="card-body">
+      <div class="content flex-1">
+        {% if recommendation_data %}
+        {% if all_percentages_100 %}
+          <div class="alert alert-success mt-3" role="alert">
+            Congratulations! You have scored 100% on all the themes. Keep up the good work!
+          </div>
+        {% else %}
+          {% for recommendation, data in recommendation_data.items %}
+            <!-- Card for each recommendation -->
+            <div class="card mb-3" id="card-{{ data.id }}">
+              <div class="card-header cursor-pointer">
+                      <span class="bi bi-plus-circle"></span>  {{ forloop.counter }}.{{ recommendation }}
+                  </div>
+                  <div class="recommendations-nested-table display-block" {% if data.id == clicked_recommendation|as_integer and clickedRecommendationTrue != "false" %} id="focused-div" {% endif %}>
+                      <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="width-70">Question</th>
+                          <th class="width-15">Answer</th>
+                          <th class="width-15">Goal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in data.questions %}
+                          {% if item.question_type.type == 'Range' %}
+                          {% if item.user_answer|to_float < item.min_value|to_float or item.user_answer|to_float > item.max_value|to_float %}
+                          {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                              <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer }}{% endif %}</td>
+                                  
+                                  <td> [{{ item.min_value }} - {{ item.max_value }}]</td>
+                              </tr>
+                          {% endwith %}
+                        {% else %}
+                          {% with expected_value=item.min_value|add:":"|add:item.max_value %}
+                              <tr class="{% if not item.user_answer %}recommendations-highlighted-row{% endif %}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer }}{% endif %}</td>
+                                  <td> [{{ item.min_value }} - {{ item.max_value }}]</td>
+                              </tr>
+                          {% endwith %}
+                        {% endif %}
+                          {% elif item.user_answer == "" or item.user_answer is None %}
+                            {% with row_class="recommendations-highlighted-row" %}
+                              <tr class="{{ row_class }}">
+                                <td>{{ item.question }}</td>
+                                <td>No answer</td>
+                                <td>{{ expected_value }}</td>
+                              </tr>
+                            {% endwith %}
+                          {% elif item.question_type.type == 'Likert5' %}
+                            {% if item.user_answer != "5" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert5_display}}{% endif %}</td>
+                                  <td>{{ 5|Likert5_display }}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert5_display }}{% endif %}</td>
+                                  <td>{{ 5|Likert5_display }}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert5N' %}
+                            {% if item.user_answer != "1" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert5N_display }}{% endif %}</td>
+                                  <td>{{ 1|Likert5N_display }}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert5N_display }}{% endif %}</td>
+                                  <td>{{ 1|Likert5N_display }}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert3' %}
+                            {% if item.user_answer != "3" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert3_display }}{% endif %}</td>
+                                  <td>{{3|Likert3_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert3_display }}{% endif %}</td>
+                                  <td>{{3|Likert3_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert3N' %}
+                            {% if item.user_answer != "1" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert3N_display }}{% endif %}</td>
+                                  <td>{{1|Likert3N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert3N_display  }}{% endif %}</td>
+                                  <td>{{1|Likert3N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert7' %}
+                            {% if item.user_answer != "7" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert7_display }}{% endif %}</td>
+                                  <td>{{7|Likert7_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert7_display }}{% endif %}</td>
+                                  <td>{{7|Likert7_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert7N' %}
+                            {% if item.user_answer != "1" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert7N_display }}{% endif %}</td>
+                                  <td>{{1|Likert7N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert7N_display}}{% endif %}</td>
+                                  <td>{{1|Likert7N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert10' %}
+                            {% if item.user_answer != "10" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert10_display }}{% endif %}</td>
+                                  <td>{{10|Likert10_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert10_display }}{% endif %}</td>
+                                  <td>{{10|Likert10_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Likert10N' %}
+                            {% if item.user_answer != "1" %}
+                              {% with row_class="recommendations-highlighted-row" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert10N_display }}{% endif %}</td>
+                                  <td>{{1|Likert10N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" expected_value=item.min_value|add:":"|add:item.max_value %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>{% if not item.user_answer %}No answer{% else %}{{ item.user_answer|Likert10N_display }}{% endif %}</td>
+                                  <td>{{1|Likert10N_display}}</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'Time' %}
+                            {% with item.time_start|date:"H:i" as clean_time_start %}
+                            {% with item.time_end|date:"H:i" as clean_time_end %}
+                              {% if item.user_answer|to_time < clean_time_start|to_time or item.user_answer|to_time > clean_time_end|to_time %}
+                                {% with row_class="recommendations-highlighted-row" %}
+                                  <tr class="{{ row_class }}">
+                                    <td>{{ item.question }}</td>
+                                    <td>{{ item.user_answer|cut:" a.m."|cut:" p.m." }}</td>
+                                    <td>[{{ clean_time_start }} - {{ clean_time_end }}]</td>
+                                  </tr>
+                                {% endwith %}
+                              {% else %}
+                                {% with row_class="" %}
+                                  <tr class="{{ row_class }}">
+                                    <td>{{ item.question }}</td>
+                                    <td>{{ item.user_answer|cut:" a.m."|cut:" p.m." }}</td>
+                                    <td>[{{ clean_time_start }} - {{ clean_time_end }}]</td>
+                                  </tr>
+                                {% endwith %}
+                              {% endif %}
+                            {% endwith %}
+                            {% endwith %}
+                          {% elif item.question_type.type == 'BoolN' %}
+                            {% if item.user_answer != "False" %}
+                              {% with row_class="recommendations-highlighted-row" %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>Yes</td>
+                                  <td>No</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>Yes</td>
+                                  <td>Yes</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% elif item.question_type.type == 'BoolP' %}
+                            {% if item.user_answer != "True" %}
+                              {% with row_class="recommendations-highlighted-row" %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>No</td>
+                                  <td>Yes</td>
+                                </tr>
+                              {% endwith %}
+                            {% else %}
+                              {% with row_class="" %}
+                                <tr class="{{ row_class }}">
+                                  <td>{{ item.question }}</td>
+                                  <td>Yes</td>
+                                  <td>Yes</td>
+                                </tr>
+                              {% endwith %}
+                            {% endif %}
+                          {% else %}
+                            {% with row_class="recommendations-highlighted-row" expected_value="Undefined" %}
+                              <tr class="{{ row_class }}">
+                                <td>{{ item.question }}</td>
+                                <td>{% if not item.user_answer %}<span class="recommendations-highlighted-row">No answer</span>{% else %}{{ item.user_answer }}{% endif %}</td>
+                                <td>{{ expected_value }}</td>
+                              </tr>
+                            {% endwith %}
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    {% if has_accepted_cookies_client %}
+                      {% if clickedRecommendationTrue != "false" %}
+                      <div class="card-footer text-right">
+                        <a href="{% url 'base:Dashboard' %}" class="btn btn-primary" id="returnToDashboardButton">Return to Dashboard</a>
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% else %}
+            <div class="alert alert-dark mt-3" role="alert">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>
+                  To get recommendations, you need to complete at least one audit!
+                </span>  
+                <a class="btn btn-light" href="{% url 'audit:Audits' %}">Audits</a>
+              </div>
+            </div>
+          {% endif %}
+          </div>
+      </div>
+  </div>
+</div>
+<br>
+{% endblock %}

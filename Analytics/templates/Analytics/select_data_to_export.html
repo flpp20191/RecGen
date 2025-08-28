@@ -1,0 +1,62 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'Analytics/css/style.css' %}">
+<script src="{% static 'Analytics/js/functions.js' %}"></script>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Select Data to Export</h1>
+        <a href="{% url 'analyst:export_user_information_data' %}" class="btn btn-secondary">Download All Data</a>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="card mb-4">
+            <div class="card-header text-white">
+                <h3 class="mb-0">Categories</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for category in categories %}
+                        <div class="col-md-4">
+                            <div class="form-check d-flex align-items-center">
+                                <input class="form-check-input categories-checkbox-analyst" type="checkbox" value="{{ category.id }}" id="category{{ category.id }}" name="categories">
+                                <label class="form-check-label ms-2" for="category{{ category.id }}">
+                                    {{ category.name }}
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header text-white">
+                <h3 class="mb-0">Questions</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for question in questions %}
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="form-check d-flex align-items-center">
+                                <input class="form-check-input question-checkbox-analyst" type="checkbox" value="{{ question.id }}" id="question{{ question.id }}" name="questions" data-category="{{ question.category.id }}">
+                                <label class="form-check-label ms-2" for="question{{ question.id }}">
+                                    {{ question.question }}
+                                </label>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                            </div><div class="row">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-secondary btn-lg">Export Data</button>
+        </div>
+    </form>
+</div>
+<br>
+
+{% endblock %}

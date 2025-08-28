@@ -1,0 +1,37 @@
+<div class="container-fluid content">
+  <form action="" method="post" novalidate>
+    {% csrf_token %}
+    <div class="table-responsive">
+      <table class="table table-light table-hover">
+        {{ wizard.management_form }}
+          {% for field in wizard.form %}
+            <tr>
+              <td class="wizard-question-text">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.help_text %}
+                <span tabindex="0" class="popover_label_tag js-popover" role="button"
+                      data-bs-toggle="popover" data-bs-trigger="click" 
+                      data-bs-placement="bottom"
+                      data-bs-content="{{ field.help_text }}">
+                    <i class="bi bi-info-circle-fill"></i>
+                </span>
+                  {% endif %}
+              </td>
+              <td class="wizard-question-answer">
+                {{ field }}
+              </td>
+            </tr>
+          {% endfor %}
+      </table>
+    </div>
+    <div class="button-container">
+      <a class="btn password-reset-login-button" href="{% url 'audit:Audits' %}">
+        Return
+      </a>
+      <button type="submit" class="btn btn-submit width-25">
+        Evaluate
+      </button>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,58 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'audit\css\list_tables.css' %}">
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fw-bold text-dark">Recommendations</h2>
+      <a href="{% url 'audit:recommendation-add' %}" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-lg"></i> Add New Recommendation
+      </a>
+    </div>
+
+    {% if object_list %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="bg-dark text-white">
+            <tr>
+              <th class="text-center text-white width-60">Recommendation</th>
+              <th class="text-center text-white width-16">Categories</th>
+              <th class="text-center text-white width-8">Weight</th>
+              <th class="text-center text-white width-16">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for recommendation in object_list %}
+              <tr>
+                <td>{{ recommendation.recommendation }}</td>
+                <td class="text-center">
+                  {% for category in recommendation.categories.all %}
+                    {{ category.name }}<br>
+                  {% endfor %}
+                </td>
+                <td class="text-center">{{ recommendation.weight }}</td>
+                <td class="text-center">
+                  <a href="{% url 'audit:recommendation-edit' recommendation.id %}" class="btn btn-sm btn-warning me-1 text-white">
+                    <i class="bi bi-pencil-square"></i> Edit
+                  </a>
+                  <a href="{% url 'audit:recommendation-delete' recommendation.id %}" class="btn btn-sm btn-danger text-white">
+                    <i class="bi bi-trash-fill"></i> Delete
+                  </a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" class="text-center">No recommendations found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center mt-4">
+        <i class="bi bi-exclamation-circle"></i> No recommendations found.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

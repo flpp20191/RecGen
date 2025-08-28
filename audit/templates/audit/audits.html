@@ -1,0 +1,119 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load audit_template_tags %}
+{% block content %}
+{% csrf_token %}
+<script src="{% static 'audit\apexcharts-bundle\apexcharts.js' %}"></script>
+<script src="{% static 'audit\js\functions.js' %}"></script>
+<link rel="stylesheet" href="{% static 'audit\apexcharts-bundle\apexcharts.css' %}">
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+
+<div id="js-data"
+    class="d-none"
+    data-csrf-token="{{ csrf_token }}"
+    data-update-tracking-url="{% url 'audit:update_tracking_status' %}">
+</div>
+<br>
+</br>
+<div class="table-responsive">
+    {% csrf_token %}
+    <div class="audit-content">
+        <div id="headerText" class="centered-audit-content"></div>
+        <table class="table table-bordered table-hover audit-table">
+            <thead class="bg-dark">
+                <tr>
+                    <th class="width-30 text-white">Category</th>
+                    <th class="width-5 text-white">Status</th>
+                    <th class="width-17 text-white">Evaluation</th>
+                    <th class="width-15 text-white">Action</th>
+                    <th class="width-8 text-white">Track</th>
+                    <th class="width-8 text-white">Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td data-label="Category">
+                        {{ category.name }}
+                        {% if category in category_data %}
+                            {% with category_data=category_data|get_item:category %}
+                                {% if not category_data.has_questions_or_recommendations %}
+                                    <i class="bi bi-exclamation-triangle-fill text-warning ms-2" title="No questions or recommendations attached"></i>
+                                {% endif %}
+                            {% endwith %}
+                        {% else %}
+                            <i class="bi bi-exclamation-triangle-fill text-warning ms-2" title="No questions or recommendations attached"></i>
+                        {% endif %}
+                    </td>
+                    
+                    <td data-label="Status">
+                        {% if category in category_data %}
+                            {% with category_data=category_data|get_item:category %}
+                                {% if category_data.has_questions_or_recommendations %}
+                                    {% has_unanswered_questions category.id request.user.id request as has_unanswered %}
+                                    <span class="audit-status-label {% if has_unanswered %} audit-status-yellow {% else %} audit-status-green {% endif %}">
+                                        {% if has_unanswered %}Not completed
+                                        {% else %}Completed
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted"> </span>
+                                {% endif %}
+                            {% endwith %}
+                        {% else %}
+                            <span class="text-muted"> </span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Evaluation">
+                        <div id="chart-{{ category.id }}"></div>
+                        {% with category_data=category_data|get_item:category %}
+                            {% if category_data.has_questions_or_recommendations %}
+                                {% if category_data %}
+                                    <span class="d-none" id="data-{{ category.id }}">{{ category_data.percentage }}</span>
+                                {% else %}
+                                    <span class="text-muted">No data available</span>
+                                {% endif %}
+                            {% else %}
+                                <span >No data available </span>
+                            {% endif %}
+                        {% endwith %}
+                    </td>
+            
+                    {% if category in category_data %}
+                        {% with category_data=category_data|get_item:category %}
+                            <td data-label="Action">
+                                <a class="btn btn-primary audit-answered-button audit-btn-min-width white-space-nowrap
+                                   {% if not category_data.has_questions_or_recommendations %} disabled {% endif %}"
+                                   href="{% if category_data.has_questions_or_recommendations %}{% url 'audit:Wizard' category.id %}{% else %}#{% endif %}">
+                                    Perform an audit
+                                </a>
+                            </td>
+                        {% endwith %}
+                    {% else %}
+                        <td data-label="Action">
+                            <a class="btn btn-primary audit-answered-button audit-btn-min-width white-space-nowrap disabled"
+                               href="#">
+                                Perform an audit
+                            </a>
+                        </td>
+                    {% endif %}
+            
+                    <td data-label="Add to dashboard" class="d-flex">
+                        <div class="form-check justify-content-center">
+                            <input class="form-check-input tracking-checkbox mr-2" type="checkbox" value="{{ category.id }}" id="defaultCheck{{ category.id }}" {% if category|is_tracking:request.user %} checked {% endif %}>
+                        </div>
+                    </td>
+
+                    <td>
+                        <a href="{% url 'audit:Categories' %}" class="eye-icon" data-category-id="{{ category.id }}">
+                            <i class="bi bi-eye-fill h3"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+</div>
+{% endblock %}

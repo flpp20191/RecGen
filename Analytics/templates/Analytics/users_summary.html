@@ -1,0 +1,69 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'Analytics/css/style.css' %}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{% static 'Analytics/apexcharts-bundle/apexcharts.css' %}">
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'Analytics/js/functions.js' %}"></script>
+<script src="{% static 'Analytics/apexcharts-bundle/apexcharts.js' %}"></script>
+<div class="container mt-5">
+    <h1 class="mb-4">
+        User Summary
+    </h1>
+    <div class="table-responsive">
+        <table id="userTable" class="table table-bordered table-hover audit-table">
+            <!-- Match thead style to your first template (bg-dark + text-white) -->
+            <thead class="bg-dark">
+                <tr>
+                    <th class="text-center align-middle width-20 text-white">Users Name</th>
+                    <th class="text-center align-middle width-15 text-white">Compliance</th>
+                    <th class="text-center align-middle width-16 text-white">Answered Questions</th>
+                    <th class="text-center align-middle width-14 text-white">Details</th>
+                    <th class="text-center align-middle width-17 text-white">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_data %}
+                <tr>
+                    <td data-label="Users Name" class="align-middle">
+                        {% if user.name %}
+                            {{ user.name }} ({{ user.username }})
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </td>
+                    <td data-label="Compliance" class="text-center align-middle">
+                        <div id="chart-{{ forloop.counter0 }}"></div>
+                    </td>
+                    <td data-label="Answered Questions" class="text-center align-middle">
+                        {{ user.answered_percentage }}%
+                    </td>
+                    <td data-label="Details" class="text-center align-middle">
+                        <a href="{% url 'analyst:user_details' user.id %}" class="btn btn-primary btn-user-detail">
+                            <i class="bi bi-info-circle"></i>
+                            Details
+                        </a>
+                    </td>
+                    <td data-label="Actions" class="text-center align-middle">
+                        {% if is_superuser %}
+                            <button class="btn btn-toggle-analyst-group btn-primary"
+                                    data-user-id="{{ user.id }}"
+                                    data-is-analyst="{% if user.is_analyst %}yes{% else %}no{% endif %}">
+                                {% if user.is_analyst %}
+                                    Remove from Analysts
+                                {% else %}
+                                    Add to Analysts
+                                {% endif %}
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+{{ user_data|json_script:"userData" }}
+{% endblock %}

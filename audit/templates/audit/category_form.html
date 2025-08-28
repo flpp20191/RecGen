@@ -1,0 +1,79 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load subtheme_filter %}
+{% block content %}
+<script src="{% static 'audit\js\functions.js' %}"></script>
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+  <div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Add Category</h2>
+    <form method="post" class="p-4 bg-white border rounded shadow-sm" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="previous_url" id="previous_url" value="{{ previous_url }}">
+
+      
+      <!-- Name Field -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+            {{ form.name|add_class:"form-control form-control-lg" }}
+            <div class="invalid-feedback">
+              Please provide a valid name.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Parent Categories Field -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="form-label d-flex align-items-center">
+              Parent Categories
+            </label>
+            <div class="form-check-group scrollable-selection">
+              {% for checkbox in form.parent %}
+              <div class="form-check">
+                {{ checkbox.tag|add_class:"form-check-input" }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                  {{ checkbox.choice_label }}
+                </label>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="invalid-feedback">
+              Please select at least one parent category.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Description Field -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+            {{ form.description|add_class:"form-control form-control-lg" }}
+            <div class="invalid-feedback">
+              Please provide a valid description.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div id="message-container">
+          {% if password_messages %}
+            {% for message in password_messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message.text }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- Save and Cancel Buttons -->
+      <div class="d-flex justify-content-center mt-4">
+        <button type="submit" class="btn btn-submit-custom btn-lg me-3 shadow-sm">Save</button>
+        <button type="button" class="btn btn-cancel-custom btn-lg shadow-sm" onclick="window.history.back();">Cancel</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

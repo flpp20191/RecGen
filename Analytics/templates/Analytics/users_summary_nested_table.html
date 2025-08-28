@@ -1,0 +1,21 @@
+{% load analytics_template_tags %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th class="nested-table-col-recommendation">Recommendation</th>
+      <th class="nested-table-col-match width-15">Match</th>
+      <th class="nested-table-col-match width-15">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for recommendation in recommendations %}
+      {% if recommendation.recommendation in recommendations_true and recommendations_true|get_item:recommendation.recommendation|get_item:"percentage" < Recommendation_thershold %}
+        <tr class="nested-table-vertical-middle"> 
+          <td>{{recommendation.recommendation}}</td>
+          <td>{{ recommendation.weight }}</td> 
+          <td>{{ recommendations_true|get_item:recommendation.recommendation|get_item:"percentage" }} %</td>
+        </tr> 
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

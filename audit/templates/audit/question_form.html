@@ -1,0 +1,242 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load subtheme_filter %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+<script src="{% static 'audit\js\question_forms.js' %}"></script>
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">{% if form.instance.pk %} Edit Question {% else %} Add Question {% endif %}</h2>
+
+
+
+    <form method="post" class="p-4 bg-white border rounded shadow-sm" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="previous_url" id="previous_url">
+
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Data Deletion Warning</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Changing the answer type will result in the deletion of related user answers. Are you sure you want to proceed?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmChangeButton">Proceed Anyway</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+        <!-- Question Input Field -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="id_question" class="form-label">Question</label>
+                    {{ form.question|add_class:"form-control form-control-lg" }}
+                    {% if form.question.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.question.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Category, Answer Type, Weight Fields -->
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="id_category" class="form-label d-flex align-items-center">
+                        Category
+                        <a href="{% url 'audit:category-add' %}?previous_url={{ request.path }}" class="btn btn-outline-primary btn-sm ms-2 d-flex align-items-center" title="Add New Category">
+                            <i class="bi bi-plus-lg"></i>
+                        </a>
+                    </label>
+                    {{ form.category|add_class:"form-control form-control-lg form-select custom-aligned-input" }} 
+                    {% if form.category.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.category.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_answerType" class="form-label">Answer Type
+                        <span id="answerTypeTooltip" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Select the type of answer expected for the question.">
+                            <i class="bi bi-question-circle-fill"></i>
+                        </span>
+                    </label>
+                    {{ form.answerType|add_class:"form-control form-control-lg form-select custom-aligned-input" }} 
+                    {% if form.answerType.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.answerType.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_weight" class="form-label">Weight
+                        <span id="weightTooltip" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Questions impact on the final result">
+                            <i class="bi bi-question-circle-fill"></i>
+                        </span>
+                    </label>
+                    {{ form.weight|add_class:"form-control form-control-lg custom-aligned-input" }} 
+                    {% if form.weight.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.weight.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidance Label for Answer Expectations -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="alert alert-info text-color-black" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i> Please enter the best possible values below that users should aim for. Consider the expected range for each input.
+                </div>
+            </div>
+        </div>
+
+        <!-- Answer Fields -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_min" class="form-label">Min</label>
+                    {{ form.min|add_class:"form-control form-control-lg" }} 
+                    {% if form.min.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.min.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_max" class="form-label">Max</label>
+                    {{ form.max|add_class:"form-control form-control-lg" }} 
+                    {% if form.max.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.max.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_time_start" class="form-label">Time Start</label>
+                    {{ form.time_start|add_class:"form-control form-control-lg" }} 
+                    {% if form.time_start.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.time_start.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="id_time_end" class="form-label">Time End</label>
+                    {{ form.time_end|add_class:"form-control form-control-lg" }} 
+                    {% if form.time_end.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.time_end.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Recommendation section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="form-label d-flex align-items-center">
+                        Recommendations
+                        <a href="{% url 'audit:recommendation-add' %}?previous_url={{ request.path }}" class="btn btn-outline-primary btn-sm ms-2 d-flex align-items-center" title="Add New Recommendation">
+                            <i class="bi bi-plus-lg"></i>
+                        </a>
+                    </label>
+                    <div class="form-check-group scrollable-selection">
+                        {% for recommendation in form.recommendations %}
+                        <div class="form-check">
+                            {{ recommendation.tag|add_class:"form-check-input" }}
+                            <label class="form-check-label" for="{{ recommendation.id_for_label }}">
+                                {{ recommendation.choice_label }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if form.recommendations.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.recommendations.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Description Field -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="id_description" class="form-label">Description</label>
+                    {{ form.description|add_class:"form-control form-control-lg" }} 
+                    {% if form.description.errors %}
+                    <div class="invalid-feedback d-block">
+                        {% for error in form.description.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div id="message-container">
+              {% if password_messages %}
+                {% for message in password_messages %}
+                  <div class="alert alert-{{ message.tags }}">{{ message.text }}</div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        <!-- Submit and Cancel Buttons -->
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-submit-custom btn-lg me-3 shadow-sm">Save</button>
+            <button type="button" class="btn btn-cancel-custom btn-lg shadow-sm" onclick="window.history.back();">Cancel</button>
+        </div>
+    </form>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+.content {
+    padding: 15px;
+  }
+  .centered-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .col-70 {
+      width: 70%;
+    }
+    .col-30 {
+      width: 30%;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    tr {
+      height: 50px;
+    }
+    td {
+    padding: 10px;
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .header-button {
+    /* Button styles */
+    padding: 10px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .header-title {
+    flex-grow: 1;
+    text-align: center;
+  }.content {
+    padding: 20px;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle; /* Add this line for vertical alignment */
+    color: #333; 
+  }
+  .btn-submit {
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease; 
+    margin-left: 10px; 
+  }
+  .btn-submit:hover {
+    background-color: #45a049;
+  }
+  @media screen and (max-width: 992px) {
+    .table th, .table td {
+      display: block;
+    }
+  }
+
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+  }
+
+  .popover_label_tag {
+    cursor: pointer;
+  }
+  input[type="text"], 
+  input[type="number"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="date"], 
+  input[type="time"], 
+  select, 
+  textarea {
+    width: 100%;
+    padding: 5px 10px 5px 5px; /* Adjusted padding */
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: text;
+  }
+  .button-container {
+    text-align: right; /* Aligns content to the right */
+  }
+  input[type="checkbox"] {
+  transform: scale(2);
+  margin: 10px;
+  vertical-align: middle;
+}
+.width-25 { width: 25%; }

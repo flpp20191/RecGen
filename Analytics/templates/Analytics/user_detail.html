@@ -1,0 +1,77 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'Analytics/css/style.css' %}">
+<script src="{% static 'Analytics/js/functions.js' %}"></script>
+<div class="container mt-5">
+    <h1 class="mb-4">User "{{ user_information }}" Details</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>General Information</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>User's Name:</strong> {{ user_information }}</p>
+            <p><strong>Address:</strong> {{ user_information.address }}</p>
+            <p><strong>Contact Number:</strong> {{ user_information.contact_number }}</p>
+            <p><strong>Contact Email:</strong> {{ user_information.contact_email }}</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Audit Results</h3>
+        </div>
+        <div class="card-body">
+            {% for answer in user_answers %}
+                <p><strong>{{ answer.question.question }}:</strong> {{ answer.answer }}</p>
+            {% empty %}
+                <p>No answers available for this user.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Recommendations</h3>
+        </div>
+        <div class="card-body">
+            <div class="content flex-1">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- 1. priority card -->
+                        <div class="card dashboard-card">
+                            <div id="card-header-1" class="dashboard-card-header-1 dashboard-card-header-clickable">
+                                <span class="bi bi-plus-circle color-black"></span>
+                                <font color="#000000">1st priority</font>
+                            </div>
+                            <div id="nested-table-1" class="dashboard-nested-table display-none">
+                                {% include 'Analytics/users_summary_nested_table.html' with recommendations=recommendation_list_tier_one recommendations_true=recommendation_list_tier_one_true%}
+                            </div>
+                        </div>
+
+                        <!-- 2. priority card -->
+                        <div class="card dashboard-card">
+                            <div id="card-header-2" class="card-header dashboard-card-header-2 dashboard-card-header-clickable">
+                                <span class="bi bi-plus-circle color-black"></span>
+                                <font color="#000000">2nd priority</font>
+                            </div>
+                            <div id="nested-table-2" class="dashboard-nested-table display-none">
+                                {% include 'Analytics/users_summary_nested_table.html' with recommendations=recommendation_list_tier_two recommendations_true=recommendation_list_tier_two_true%}
+                            </div>
+                        </div>
+
+                        <!-- 3. priority card -->
+                        <div class="card dashboard-card">
+                            <div id="card-header-3" class="dashboard-card-header-3 dashboard-card-header-clickable">
+                                <span class="bi bi-plus-circle color-black"></span>
+                                <font color="#000000">3rd priority</font>
+                            </div>
+                            <div id="nested-table-3" class="dashboard-nested-table display-none">
+                                {% include 'Analytics/users_summary_nested_table.html' with recommendations=recommendation_list_tier_three recommendations_true=recommendation_list_tier_three_true%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,379 @@
+.container {
+    flex-grow: 1;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+label {
+  margin: 10px;
+}
+.width-1 { width: 1%; }
+.width-2 { width: 2%; }
+.width-3 { width: 3%; }
+.width-4 { width: 4%; }
+.width-5 { width: 5%; }
+.width-6 { width: 6%; }
+.width-7 { width: 7%; }
+.width-8 { width: 8%; }
+.width-9 { width: 9%; }
+.width-10 { width: 10%; }
+.width-11 { width: 11%; }
+.width-12 { width: 12%; }
+.width-13 { width: 13%; }
+.width-14 { width: 14%; }
+.width-15 { width: 15%; }
+.width-16 { width: 16%; }
+.width-17 { width: 17%; }
+.width-18 { width: 18%; }
+.width-19 { width: 19%; }
+.width-20 { width: 20%; }
+.width-21 { width: 21%; }
+.width-22 { width: 22%; }
+.width-23 { width: 23%; }
+.width-24 { width: 24%; }
+.width-25 { width: 25%; }
+.width-26 { width: 26%; }
+.width-27 { width: 27%; }
+.width-28 { width: 28%; }
+.width-29 { width: 29%; }
+.width-30 { width: 30%; }
+.width-31 { width: 31%; }
+.width-32 { width: 32%; }
+.width-33 { width: 33%; }
+.width-34 { width: 34%; }
+.width-35 { width: 35%; }
+.width-36 { width: 36%; }
+.width-37 { width: 37%; }
+.width-38 { width: 38%; }
+.width-39 { width: 39%; }
+.width-40 { width: 40%; }
+.width-41 { width: 41%; }
+.width-42 { width: 42%; }
+.width-43 { width: 43%; }
+.width-44 { width: 44%; }
+.width-45 { width: 45%; }
+.width-46 { width: 46%; }
+.width-47 { width: 47%; }
+.width-48 { width: 48%; }
+.width-49 { width: 49%; }
+.width-50 { width: 50%; }
+.width-51 { width: 51%; }
+.width-52 { width: 52%; }
+.width-53 { width: 53%; }
+.width-54 { width: 54%; }
+.width-55 { width: 55%; }
+.width-56 { width: 56%; }
+.width-57 { width: 57%; }
+.width-58 { width: 58%; }
+.width-59 { width: 59%; }
+.width-60 { width: 60%; }
+.width-61 { width: 61%; }
+.width-62 { width: 62%; }
+.width-63 { width: 63%; }
+.width-64 { width: 64%; }
+.width-65 { width: 65%; }
+.width-66 { width: 66%; }
+.width-67 { width: 67%; }
+.width-68 { width: 68%; }
+.width-69 { width: 69%; }
+.width-70 { width: 70%; }
+.width-71 { width: 71%; }
+.width-72 { width: 72%; }
+.width-73 { width: 73%; }
+.width-74 { width: 74%; }
+.width-75 { width: 75%; }
+.width-76 { width: 76%; }
+.width-77 { width: 77%; }
+.width-78 { width: 78%; }
+.width-79 { width: 79%; }
+.width-80 { width: 80%; }
+.width-81 { width: 81%; }
+.width-82 { width: 82%; }
+.width-83 { width: 83%; }
+.width-84 { width: 84%; }
+.width-85 { width: 85%; }
+.width-86 { width: 86%; }
+.width-87 { width: 87%; }
+.width-88 { width: 88%; }
+.width-89 { width: 89%; }
+.width-90 { width: 90%; }
+.width-91 { width: 91%; }
+.width-92 { width: 92%; }
+.width-93 { width: 93%; }
+.width-94 { width: 94%; }
+.width-95 { width: 95%; }
+.width-96 { width: 96%; }
+.width-97 { width: 97%; }
+.width-98 { width: 98%; }
+.width-99 { width: 99%; }
+.width-100 { width: 100%; }
+
+.card-header {
+    background-color: #6c757d;
+    color: white;
+    font-size: 20px;
+    padding: 10px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+input[type="checkbox"] {
+    transform: scale(2);
+    margin: 21px;
+    outline: none; 
+  } 
+  .form-check-input{
+    margin-left: -0.5em !important;
+  }
+
+
+  .dashboard-card {
+    margin-top: 20px;
+    border-radius: 0.9375rem;
+    box-shadow: 0 0.125rem 0.3125rem 0 rgba(0, 0, 0, 0.16),
+      0 0.125rem 0.625rem 0 rgba(0, 0, 0, 0.12);
+  }
+  .dashboard-card-header {
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.625rem 0.9375rem;
+    border-top-left-radius: 0.9375rem;
+    border-top-right-radius: 0.9375rem;
+  }
+  
+  .dashboard-card-header-1 {
+    cursor: pointer;
+    background-color: #d1f1da;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.625rem 0.9375rem;
+    border-top-left-radius: 0.9375rem;
+    border-top-right-radius: 0.9375rem;
+  }
+  
+  .dashboard-card-header-2 {
+    cursor: pointer;
+    background-color: #fef2cd;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.625rem 0.9375rem;
+    border-top-left-radius: 0.9375rem;
+    border-top-right-radius: 0.9375rem;
+  }
+  
+  .dashboard-card-header-3 {
+    cursor: pointer;
+    background-color: #daf1f3;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0.625rem 0.9375rem;
+    border-top-left-radius: 0.9375rem;
+    border-top-right-radius: 0.9375rem;
+  }
+
+  .background-color-white {
+    background-color: #d1f1da
+  }
+  .background-color-whiteish {
+    background-color: #fef2cd
+  }
+  .background-color-whiteish-more {
+    background-color: #daf1f3"
+  }
+  .color-black {
+    color: #000000
+  }
+  .color-red {
+    color: red;
+  }
+  .color-black-pointer {
+    color: #000000; 
+    pointer-events: none"
+  }
+
+
+  .dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    margin-left: 3px
+}
+
+
+.dashboard-card-header {
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  border-top-left-radius: 0.9375rem;
+  border-top-right-radius: 0.9375rem;
+}
+
+.dashboard-card-header-1 {
+  cursor: pointer;
+  background-color: #d1f1da;
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  border-top-left-radius: 0.9375rem;
+  border-top-right-radius: 0.9375rem;
+}
+
+.dashboard-card-header-2 {
+  cursor: pointer;
+  background-color: #fef2cd;
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  border-top-left-radius: 0.9375rem;
+  border-top-right-radius: 0.9375rem;
+}
+
+.dashboard-card-header-3 {
+  cursor: pointer;
+  background-color: #daf1f3;
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  border-top-left-radius: 0.9375rem;
+  border-top-right-radius: 0.9375rem;
+}
+.white-underline {
+  text-decoration: underline;
+  text-decoration-color: white;
+}
+
+.white-underline:hover,
+.white-underline:active,
+.white-underline:visited {
+  text-decoration-color: white;
+}
+
+.display-block {
+  display: block;
+}
+.display-none {
+  display: none;
+}
+
+.dashboard-card-header-notclickable {
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.25rem;
+  padding: 0.625rem 0.9375rem;
+  border-top-left-radius: 0.9375rem;
+  border-top-right-radius: 0.9375rem;
+}
+
+
+
+
+/* Table styling to match your first template’s approach */
+.audit-table th, .audit-table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.5rem 0.5rem;
+}
+
+.audit-table {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 0.5rem 0.5rem;
+  margin-bottom: 1rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* If you want thead background dark with white text */
+.bg-dark {
+  background-color: #343a40 !important;
+}
+.text-white {
+  color: #fff !important;
+}
+
+@media (max-width: 1200px) {
+  .audit-table th,
+  .audit-table td {
+      display: block;
+      /* width: 100%; */
+      box-sizing: border-box;
+      text-align: left;
+      padding: 0.5rem;
+  }
+
+  .audit-table thead {
+      display: none;
+  }
+
+  .audit-table tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      overflow: hidden;
+  }
+
+  .audit-table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      border-bottom: 1px solid #dee2e6;
+  }
+
+  .audit-table td:last-child {
+      border-bottom: 0;
+  }
+
+  .audit-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      /* flex: 1; */
+  }
+
+
+  .btn-toggle-analyst-group{
+    width: 25%;
+  }
+  .btn-user-detail{
+    width: 25%
+  }
+  /* .audit-table td div {
+      flex: 2;
+  } */
+
+  .d-flex {
+      display: flex;
+  }
+
+  .justify-content-center {
+      justify-content: center;
+  }
+
+  .form-check-input {
+      margin-right: 0.5rem;
+  }
+
+dth: 100%;
+  }
+}
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .form-check-group.d-flex {
+    flex-direction: column;
+  }
+  .audit-status-label { 
+    min-width: 100px; 
+  }
+}

@@ -1,0 +1,68 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <h2 class="text-center mb-4">
+          Login
+      </h2>
+      <form action="" method="POST" class="p-4 border rounded dynamic-form">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="id_username" class="form-label">
+              Username
+          </label>
+          <input
+            type="text"
+            class="form-control resizable-input"
+            name="username"
+            id="id_username"
+            required autofocus
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="id_password" class="form-label">
+              Password
+          </label>
+          <input
+            type="password"
+            class="form-control resizable-input"
+            name="password"
+            id="id_password"
+            required
+          />
+        </div>
+        {% if messages %}
+        <div class="alert-messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}{% if message.tags == 'error' %} alert-danger{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="button-container">
+          <button type="submit" class="btn btn-submit-custom">
+              Log in
+          </button>
+          <a href="{% url 'accounts:Register' %}" class="btn btn-submit-custom">
+              Register
+          </a>
+        </div>
+        <div class="button-container">
+          <a href="{% url 'accounts:Password_reset' %}" class="btn btn-link">
+              Forgot password?
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

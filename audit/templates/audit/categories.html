@@ -1,0 +1,107 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load audit_template_tags %}
+{% load static %}
+{% csrf_token %}
+
+<script src="{% static 'audit\js\functions.js' %}"></script>
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+<div class="tab-content p-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Categories</h3>
+        </div>
+        <div class="card-body">
+            <div class="contect flex-1">
+                {% if categories %}
+                    {% for category in categories %}
+                        <!-- Card for each category -->
+                        <div class="card mb-3" id="card-category-{{ category.id }}">
+                            <div class="card-header cursor-pointer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="bi bi-plus-circle"></span> {{ category.name }}
+                                </div>
+                                <div>
+                                    {% for total_category, data in category_data_percentage.items %}
+                                        {% if category.name in total_category %}
+                                            {{ data.percentage }}%
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Recommendations for the current category -->
+                            <div class="recommendations-nested-table display-block">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Recommendation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% with category_data|get_item:category.id as category_info %}
+                                            {% if category_info.recommendations %}
+                                                {% for recommendation in category_info.recommendations %}
+                                                    <tr>
+                                                        <td>{{ recommendation.recommendation }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="2">No recommendations found</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endwith %}
+                                    </tbody>
+                                </table>
+
+                                <!-- Nested child categories if any -->
+                                {% if category_info.children %}
+                                    {% for child in category_info.children %}
+                                        <div class="card mt-3">
+                                            <div class="card-header">
+                                                {{ child.name }}
+                                            </div>
+                                            <div class="recommendations-nested-table display-block">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Recommendation</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% with category_data|get_item:child.id as child_info %}
+                                                            {% if child_info.recommendations %}
+                                                                {% for recommendation in child_info.recommendations %}
+                                                                    <tr>
+                                                                        <td>{{ recommendation.recommendation }}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <tr>
+                                                                    <td colspan="2">No recommendations found</td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endwith %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-dark mt-3" role="alert">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span>No categories found!</span>
+                            <a class="btn btn-light" href="{% url 'audit:Audits' %}">Audits</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

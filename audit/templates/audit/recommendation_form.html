@@ -1,0 +1,89 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load subtheme_filter %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+  <div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Add Recommendation</h2>
+    <form method="post" class="p-4 bg-white border rounded shadow-sm" novalidate id="recommendationForm">
+      {% csrf_token %}
+      
+      <input type="hidden" name="previous_url" id="previous_url" value="{{ previous_url }}">
+
+      <div class="row mb-4">
+        <div class="col-md-9">
+          <div class="form-group">
+            <label for="{{ form.recommendation.id_for_label }}" class="form-label">Recommendation</label>
+            {{ form.recommendation|add_class:"form-control form-control-lg" }}
+            {% if form.recommendation.errors %}
+              <div class="invalid-feedback d-block">
+                {% for error in form.recommendation.errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="{{ form.weight.id_for_label }}" class="form-label">Weight</label>
+            {{ form.weight|add_class:"form-control form-control-lg" }}
+            {% if form.weight.errors %}
+              <div class="invalid-feedback d-block">
+                {% for error in form.weight.errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Updated section for categories with checkboxes and scrollable container -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="form-label d-flex align-items-center">
+              Categories
+              <a href="{% url 'audit:category-add' %}" class="btn btn-outline-primary btn-sm ms-2 d-flex align-items-center" title="Add New Category">
+                <i class="bi bi-plus-lg"></i>
+              </a>
+            </label>
+
+            <div class="form-check-group scrollable-selection">
+              {% for checkbox in form.categories %}
+              <div class="form-check">
+                {{ checkbox.tag|add_class:"form-check-input" }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                  {{ checkbox.choice_label }}
+                </label>
+              </div>
+              {% endfor %}
+            </div>
+            {% if form.categories.errors %}
+              <div class="invalid-feedback d-block">
+                {% for error in form.categories.errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div id="message-container">
+          {% if password_messages %}
+            {% for message in password_messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message.text }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <!-- Submit and Cancel Buttons -->
+      <div class="d-flex justify-content-center mt-4">
+          <button type="submit" class="btn btn-submit-custom btn-lg me-3 shadow-sm">Save</button>
+          <button type="button" class="btn btn-cancel-custom btn-lg shadow-sm" onclick="window.history.back();">Cancel</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

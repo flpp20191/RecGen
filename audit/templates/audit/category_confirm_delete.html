@@ -1,0 +1,19 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'audit\css\style.css' %}">
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Delete Category</h2>
+    <div class="alert alert-danger text-center">
+      <p>Are you sure you want to delete the category <strong>{{ object.name }}</strong>?</p>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <form method="post" class="submit-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-3">Delete</button>
+        <a href="{% url 'audit:category-list' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}

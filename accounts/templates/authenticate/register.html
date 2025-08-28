@@ -1,0 +1,74 @@
+{% extends 'base/main.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="text-center mb-4">
+          Registration
+        </h2>
+        <form method="post" class="p-4 border rounded">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="id_username" class="form-label">
+              Username
+            </label>
+            <input type="text" name="username" class="form-control" id="id_username" required autofocus>
+            {% if form.username.errors %}
+                <div class="mt-2 text-danger">
+                {{ form.username.errors.as_text }}
+                </div>
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <label for="id_email" class="form-label">
+              Email
+            </label>
+            <input type="email" name="email" class="form-control" id="id_email" required>
+            {% if form.email.errors %}
+                <div class="mt-2 text-danger">
+                {{ form.email.errors.as_text }}
+                </div>
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <label for="id_password1" class="form-label">
+              Password
+            </label>
+            <input type="password" name="password1" class="form-control" id="id_password1" required>
+            {% if form.password1.errors %}
+                <div class="mt-2 text-danger">
+                {{ form.password1.errors.as_text }}
+                </div>
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <label for="id_password2" class="form-label">
+              Confirm Password
+            </label>
+            <input type="password" name="password2" class="form-control" id="id_password2" required>
+            {% if form.password2.errors %}
+                <div class="mt-2 text-danger">
+                {{ form.password2.errors.as_text }}
+                </div>
+            {% endif %}
+          </div>
+          <button type="submit" class="btn btn-submit-custom">
+            Register
+          </button>
+          <a href="{% url 'accounts:login' %}" class="btn btn-link">
+            Return to Login
+          </a>
+        </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

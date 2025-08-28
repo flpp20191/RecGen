@@ -1,0 +1,21 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+<script src="{% static 'audit\js\popoverSetup.js' %}"></script>
+<script src="{% static 'audit\js\functions.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'audit\css\style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'audit\css\wizard_style.css' %}">
+
+<div class="content">
+  <div id="headerText" class="centered-content">
+    <div class="header-row">
+      <h2 class="header-title">
+          {{ category.name }}
+      </h2>
+      <div></div> 
+    </div>
+  </div>
+  {% include 'audit/wizard.html' %}
+</div>
+{% endblock %}

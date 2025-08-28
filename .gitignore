@@ -1,0 +1,21 @@
+# Ignore all virtual environments
+venv/
+# VSCode settings
+.vscode/
+
+# SQLite database file used for storing chat history
+%Projects%Django%WasteTracker/chat_history/history.sqlite
+
+# Python cache files
+__pycache__/
+
+# Environment settings files
+root/*.env
+
+# Collected Static files
+staticfiles/
+
+# Django settings file (sensitive data, consider adding only settings with secrets)
+root/settings.py
+logfile.log
+

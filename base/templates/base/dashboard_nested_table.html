@@ -1,0 +1,33 @@
+{% load base_tags %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th class="nested-table-col-recommendation">Recommendation</th>
+      <th class="nested-table-col-match">Match</th>
+      <th class="nested-table-col-info">Info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- If there *are* recommendations, display them -->
+    {% if not no_recommendation %}
+
+      
+      {% for item in recommendations_true %}
+        <tr class="nested-table-vertical-middle"> 
+          <td>{{ item.recommendation_text }}</td>
+          <td>{{ item.percentage }}%</td>
+          <td class="centered-audit-content justify-content-center">
+            <a href="{% url 'audit:Recommendations' %}">
+                <i class="bi bi-eye-fill h3" data-id="{{ item.rec_id }}"></i>
+            </a>  
+          </td>
+        </tr>
+      {% endfor %}
+
+    {% else %}
+      <tr>
+        <td colspan="3">Currently there is nothing that can be recommended.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

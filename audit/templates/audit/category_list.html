@@ -1,0 +1,56 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+<script src="{% static 'audit\js\functions.js' %}"></script>
+<link rel="stylesheet" href="{% static 'audit\css\list_tables.css' %}">
+
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fw-bold text-dark">Categories</h2>
+      <a href="{% url 'audit:category-add' %}" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-lg"></i> Add New Category
+      </a>
+    </div>
+
+    {% if object_list %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle" >
+          <thead class="bg-dark text-white">
+            <tr>
+              <th class="text-center">Name</th>
+              <th class="text-center">Parent Category</th>
+              <th class="text-center width-16">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in object_list %}
+              <tr>
+                <td>{{ category.name }}</td>
+                <td class="text-center">
+                  {% if category.parent %}
+                    {{ category.parent.name }}
+                  {% else %}
+                    <span class="text-muted">None</span>
+                  {% endif %}
+                </td>
+                <td class="text-center">
+                  <a href="{% url 'audit:category-edit' category.id %}" class="btn btn-sm btn-warning text-white me-1">
+                    <i class="bi bi-pencil-square"></i> Edit
+                  </a>
+                  <a href="{% url 'audit:category-delete' category.id %}" class="btn btn-sm btn-danger text-white">
+                    <i class="bi bi-trash-fill"></i> Delete
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center mt-4">
+        <i class="bi bi-exclamation-circle"></i> No categories found.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

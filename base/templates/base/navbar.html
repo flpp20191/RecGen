@@ -1,0 +1,73 @@
+{% load static %}
+{% load base_tags %}
+{% csrf_token %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
+  <div class="container px-5">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if user.is_authenticated and user.get_full_name %}
+    <span class="user-name">{{ user.get_full_name }}</span>
+    {% endif %}
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item {% if request.resolver_match.url_name == 'Dashboard' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'base:Dashboard' %}">Dashboard</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Audit
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'audit:Audits' %}">Evaluation</a></li>
+              <li><a class="dropdown-item" href="{% url 'audit:Recommendations' %}">Recommendations</a></li>
+              <li><a class="dropdown-item" href="{% url 'audit:Categories' %}">Categories</a></li>
+            </ul>
+          </li>
+        {% endif %}
+        {% if user.is_superuser or user|has_group:"Analyst" %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="analyticsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Analytics
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="analyticsDropdown">
+            <li><a class="dropdown-item" href="{% url 'analyst:user_information_summary' %}">User Data Summary</a></li>
+            <li><a class="dropdown-item" href="{% url 'analyst:select_data_to_export' %}">Select Data to Export</a></li>
+
+          </ul>
+        </li>
+        {% endif %}
+        {% if user.is_superuser %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Administration
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin Panel</a></li>
+            <li><a class="dropdown-item" href="{% url 'audit:category-list' %}">Categories</a></li>
+            <li><a class="dropdown-item" href="{% url 'audit:recommendation-list' %}">Recommendations</a></li>
+            <li><a class="dropdown-item" href="{% url 'audit:question-list' %}">Questions</a></li>
+            <li><a class="dropdown-item" href="{% url 'audit:upload_input_data_excel' %}">Update data</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Menu
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+              <li><a class="dropdown-item" href="{% url 'accounts:User_settings' %}">User Information</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:Password_change' %}">Options</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
