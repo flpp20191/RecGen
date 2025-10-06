@@ -268,9 +268,17 @@ You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+## Acknowledgement
+ - This research was funded by the Latvian Council of Science, project “Testing Interventions and Developing a Knowledge-based Recommendation System to Reduce Plate Waste in School Catering in Latvia”, project No. lzp-2022/1-0492
+
+## Citation
+![Article_Banner_MDPI_applsci-15-10482_page-0001](https://github.com/user-attachments/assets/7aba1077-5f9c-4bf4-9e2f-88050a28a924)
+
+Kodors, S.; Apeinans, I.; Zarembo, I.; Lonska, J. RecGen: No-Coding Shell of Rule-Based Expert System with Digital Twin and Capability-Driven Approach Elements for Building Recommendation Systems. Appl. Sci. 2025, 15, 10482. https://doi.org/10.3390/app151910482
