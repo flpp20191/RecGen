@@ -110,10 +110,10 @@ ASGI_APPLICATION = "root.asgi.application"
 DATABASES = {}
 DB_ENGINE = env("DB_ENGINE", default="sqlite3").strip()
 if DB_ENGINE == "sqlite3":
+    db_name = env("DB_NAME", default="db.sqlite3")
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'NAME': BASE_DIR / f"{db_name}.sqlite3",
 
 elif DB_ENGINE=="mysql":
     DATABASES['default'] = {
@@ -230,3 +230,4 @@ LOGGER_DATA_KEEPING_DAYS = 3
 CSP_REPORT_ONLY = True
 
 X_FRAME_OPTIONS = 'DENY'
+
