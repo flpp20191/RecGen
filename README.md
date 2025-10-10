@@ -1,5 +1,14 @@
 # RecGen
-A brief description of what this Django project is about and its main features.
+
+## Description
+Recgen is a **no-coding shell of a rule-based expert system** designed for building recommendation systems.
+It is an open-source framework developed using Python and the Django framework.
+ 
+Key Features and Concepts:
+- **Rule-Based Expert System:** It allows domain experts to define and manage "if-then" rules without needing to delve into technical coding aspects.
+- **Digital Twin Paradigm:** The system architecture incorporates the concept of a digital twin, a virtual representation of a physical system.
+- **Capability-Driven Approach:** The working mechanisms are based on the Capability-Driven Development (CDD) methodology.
+- **Purpose:** The primary goal is to provide a user-friendly tool that enables experts to create systems capable of generating specific recommendations. It has been validated for use cases such as providing recommendations to reduce food waste in schools.
 
 ## Table of Contents
 
