@@ -167,6 +167,16 @@ python manage.py runserver
 
 Visit `http://127.0.0.1:8000/` in your web browser to see the project in action.
 
+## Creating a Superuser
+
+To create a superuser account for accessing the Django admin interface, run:
+
+```bash
+python manage.py createsuperuser
+```
+
+Follow the on-screen prompts to set up the username, email, and password. Use superuser credentials to access system.
+
 ## Step 7: Upload Data Using Excel Files
 
 To upload data to the system, use the provided Excel files. You can download the template Excel file, fill it out, and upload it via the interface.
@@ -236,15 +246,6 @@ To enable email functionality in your Django application using Google's SMTP ser
 
 ## Additional Commands
 
-### Creating a Superuser
-
-To create a superuser account for accessing the Django admin interface, run:
-
-```bash
-python manage.py createsuperuser
-```
-
-Follow the on-screen prompts to set up the username, email, and password.
 
 ### Running Tests
 
