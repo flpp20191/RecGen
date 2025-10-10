@@ -85,12 +85,14 @@ In the root of your project directory, copy the `.env.example` file to create a 
 #### On macOS/Linux:
 
 ```bash
+cd root
 cp .env.example .env
 ```
 
 #### On Windows:
 
 ```bash
+cd root
 copy .env.example .env
 ```
 
@@ -99,7 +101,8 @@ copy .env.example .env
 To ensure the `SECRET_KEY` is secure, generate a random key by running the following command:
 
 ```bash
-python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+python
+from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
 ```
 
 This will output a secure key that you should copy and paste into your `.env` file under the `SECRET_KEY` variable:
@@ -143,6 +146,7 @@ Ensure that your MySQL server is up and running before proceeding.
 After configuring the environment variables, run the setup command to create the database, apply migrations, and populate initial data:
 
 ```bash
+cd..
 python manage.py setup
 ```
 
