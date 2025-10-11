@@ -114,7 +114,7 @@ if DB_ENGINE == "sqlite3":
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / f"{db_name}.sqlite3",
-
+    }
 elif DB_ENGINE=="mysql":
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.mysql',
@@ -230,5 +230,6 @@ LOGGER_DATA_KEEPING_DAYS = 3
 CSP_REPORT_ONLY = True
 
 X_FRAME_OPTIONS = 'DENY'
+
 
 
