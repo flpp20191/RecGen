@@ -140,6 +140,14 @@ DB_PORT=3306
 
 Ensure that your MySQL server is up and running before proceeding.
 
+### 4. **Setup recommendation threshold**:
+
+The `RECOMMENDATION_THRESHOLD` defines the minimum score required for a recommendation to be considered valid; any value below this threshold is marked as a failure and presented to the user as a goal to achieve.
+
+Example: 
+```bash 
+RECOMMENDATION_THRESHOLD=75
+```
 
 ## Step 5: Run the Setup Command
 
