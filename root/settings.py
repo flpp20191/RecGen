@@ -121,9 +121,9 @@ elif DB_ENGINE=="mysql":
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': env('DB_NAME'),
-        'USER': env('DB_USER', default='root')
-        'PASSWORD': env('DB_PASSWORD', default='')
-        'HOST': env('DB_HOST', default='localhost')
+        'USER': env('DB_USER', default='root'),
+        'PASSWORD': env('DB_PASSWORD', default=''),
+        'HOST': env('DB_HOST', default='localhost'),
         'PORT': env('DB_PORT', default='3306'),
     }
 else:
@@ -232,6 +232,7 @@ LOGGER_DATA_KEEPING_DAYS = 3
 CSP_REPORT_ONLY = True
 
 X_FRAME_OPTIONS = 'DENY'
+
 
 
 
