@@ -31,7 +31,7 @@ Key Features and Concepts:
 
 Before you begin, make sure you have the following installed on your system:
 
-- **Python 3.x**: [Download Python](https://www.python.org/downloads/)
+- **Python 3.8 to 3.12*: [Download Python](https://www.python.org/downloads/)
 - **pip**: Python's package installer (included with Python 3.x)
 - (optional) **MySQL** : Ensure that MySQL is installed and running on your machine if you choose to use them.
 
